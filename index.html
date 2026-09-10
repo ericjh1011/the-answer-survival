@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>THE ANSWER : 공정의 시대 — 생존 서바이벌</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg0:#03040a;
+  --bg1:#070b16;
+  --panel:rgba(15,21,38,.95);
+  --panel2:rgba(9,13,26,.97);
+  --line:rgba(56,189,248,.38);
+  --lineSoft:rgba(56,189,248,.14);
+  --text:#f5f8ff;
+  --muted:#aebbd6;
+  --cyan:#38bdf8;
+  --cyan2:#7dd8ff;
+  --amber:#ffd166;
+  --red:#ff3b57;
+  --green:#34d399;
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%;background:var(--bg0);color:var(--text)}
+body{
+  font-family:"Noto Sans KR","Malgun Gothic",sans-serif;
+  font-size:16px;
+  background:#03040a;
+  min-height:100vh;
+  position:relative;
+}
+
+/* ---------- 배경 씬 (수사/시스템 보드) ---------- */
+.bg-scene{
+  position:fixed;inset:0;z-index:0;overflow:hidden;background:#03040a;
+}
+.bg-scene svg{width:100%;height:100%;display:block}
+.bg-scrim{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(circle at 20% 10%,rgba(56,189,248,.14),transparent 42%),
+    radial-gradient(circle at 85% 88%,rgba(255,59,87,.12),transparent 46%),
+    linear-gradient(180deg,rgba(3,4,10,.30) 0%,rgba(3,4,10,.42) 55%,rgba(3,4,10,.55) 100%);
+}
+.screen{position:relative;z-index:2}
+
+.topBrand{
+  position:fixed;top:0;left:0;right:0;z-index:6;
+  display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
+  padding:12px 16px;
+  background:linear-gradient(180deg,rgba(6,10,20,.96),rgba(6,10,20,.88));
+  border-bottom:1px solid var(--line);
+  box-shadow:0 4px 24px rgba(0,0,0,.35);
+}
+.topBrandDot{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px rgba(255,209,102,.8)}
+.topBrandYear{font-family:"Noto Sans KR",sans-serif;font-size:16px;font-weight:900;letter-spacing:.02em;color:var(--amber)}
+.topBrandName{font-size:16px;font-weight:900;color:#fff;letter-spacing:.02em}
+.topBrandDivider{color:rgba(143,160,189,.4)}
+.topBrandGame{font-size:12.5px;letter-spacing:.1em;color:var(--cyan2)}
+@media (max-width:520px){
+  .topBrandGame{display:none}
+  .topBrandDivider{display:none}
+}
+.mono{font-family:"IBM Plex Mono",monospace}
+.display{font-family:"Black Han Sans","Noto Sans KR",sans-serif;letter-spacing:.02em}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.hidden{display:none!important}
+
+.screen{
+  min-height:100vh;width:100%;
+  display:flex;align-items:center;justify-content:center;
+  padding:96px 18px 32px;
+}
+
+/* ---------- shared card ---------- */
+.panel{
+  position:relative;
+  width:min(720px,94vw);
+  background:linear-gradient(180deg,var(--panel),var(--panel2));
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:38px 34px;
+  box-shadow:0 30px 80px rgba(0,0,0,.55), inset 0 0 40px rgba(56,189,248,.04);
+}
+.panel:before{
+  content:"";position:absolute;inset:0;border-radius:6px;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(56,189,248,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(56,189,248,.045) 1px,transparent 1px);
+  background-size:34px 34px;
+  mask-image:radial-gradient(circle at 50% 0%,rgba(0,0,0,.9),transparent 75%);
+}
+.tag{
+  display:inline-block;
+  font-family:"IBM Plex Mono",monospace;
+  font-size:12.5px;letter-spacing:.2em;color:var(--cyan2);
+  border:1px solid var(--line);border-radius:100px;
+  padding:5px 12px;margin-bottom:14px;
+}
+.tag.red{color:#ffb3c0;border-color:rgba(255,59,87,.45)}
+.tag.green{color:#b7f5dd;border-color:rgba(52,211,153,.45)}
+
+.eventBanner{
+  display:inline-flex;align-items:baseline;gap:10px;
+  padding:12px 26px;margin-bottom:18px;
+  border:1.5px solid var(--amber);border-radius:100px;
+  background:rgba(255,209,102,.08);
+  box-shadow:0 0 26px rgba(255,209,102,.15);
+}
+.eventBanner .eventYear{font-family:"Noto Sans KR",sans-serif;font-size:22px;font-weight:900;color:var(--amber);letter-spacing:.01em}
+.eventBanner .eventName{font-family:"Noto Sans KR",sans-serif;font-size:22px;font-weight:900;color:#fff;letter-spacing:.01em}
+
+h1.display{font-size:clamp(28px,5vw,42px);margin:6px 0 10px;color:#fff}
+p.lead{color:var(--muted);line-height:1.8;font-size:17px}
+
+/* ---------- entry ---------- */
+.subtitle{font-size:14.5px;letter-spacing:.3em;color:var(--muted);margin-bottom:4px}
+.idrow{display:flex;gap:10px;margin-top:26px}
+#knoxInput{
+  flex:1;padding:15px 16px;background:rgba(3,6,14,.85);
+  border:1px solid var(--line);border-radius:5px;color:var(--text);font-size:16px;outline:0;
+}
+#knoxInput::placeholder{color:#5c6c88}
+#knoxInput:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(56,189,248,.14)}
+.primary{
+  padding:15px 24px;border-radius:5px;color:#04121c;font-weight:700;letter-spacing:.03em;
+  background:linear-gradient(90deg,var(--cyan2),var(--cyan));
+  box-shadow:0 0 24px rgba(56,189,248,.25);
+}
+.primary:hover{filter:brightness(1.07)}
+.primary:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
+.primary:disabled:hover{filter:none}
+.primary.wide{width:100%;margin-top:26px;padding:16px 24px}
+#entryError{min-height:18px;margin-top:8px;font-size:14.5px;color:var(--red)}
+
+/* ---------- rules ---------- */
+.ruleList{margin:20px 0 0;padding:0;list-style:none}
+.ruleList li{
+  position:relative;padding:12px 0 12px 26px;line-height:1.65;color:#dbe4f2;
+  border-bottom:1px dashed rgba(143,160,189,.22);font-size:16.5px;
+}
+.ruleList li:before{
+  content:"";position:absolute;left:2px;top:20px;width:7px;height:7px;border-radius:1px;
+  background:var(--cyan);box-shadow:0 0 8px rgba(56,189,248,.6);
+}
+.ruleList li b{color:#fff}
+
+/* ---------- game hud ---------- */
+.gameWrap{width:min(760px,96vw)}
+.hud{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 18px;margin-bottom:14px;
+  background:linear-gradient(180deg,rgba(4,7,15,.94),rgba(6,10,20,.88));
+  border:1px solid var(--line);border-radius:6px;
+}
+.hudLeft .mono{font-size:12.5px;letter-spacing:.16em;color:var(--muted)}
+.hudLeft .topic{font-size:17px;font-weight:700;color:#fff;margin-top:2px}
+.hudTimer{font-family:"IBM Plex Mono",monospace;font-size:26px;color:var(--cyan2);letter-spacing:.05em}
+.hearts{display:inline-flex;gap:6px}
+.heart{
+  width:16px;height:15px;position:relative;display:inline-block;
+  filter:drop-shadow(0 0 5px rgba(255,59,87,.5));
+}
+.heart:before{
+  content:"";position:absolute;inset:2px 1px 0;
+  background:linear-gradient(180deg,#ff7893,#ff3b57);
+  clip-path:polygon(0 0,38% 0,50% 18%,62% 0,100% 0,100% 55%,50% 100%,0 55%);
+}
+.heart.off{opacity:.15;filter:grayscale(1)}
+
+.caseCard{
+  background:var(--panel);border:1px solid var(--line);border-radius:6px;
+  padding:28px 26px;margin-bottom:14px;position:relative;overflow:hidden;
+}
+.caseCard:before{
+  content:"";position:absolute;left:26px;right:26px;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.6;
+}
+.caseTitle{font-size:28px;margin:4px 0 12px;color:#fff}
+.caseIntro{white-space:pre-line;color:#e2e9f7;line-height:1.85;font-size:17px}
+
+.sectionLabel{
+  font-family:"IBM Plex Mono",monospace;font-size:12.5px;letter-spacing:.18em;
+  color:var(--muted);margin:20px 4px 10px;
+}
+.clueBoard{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+@media (max-width:560px){.clueBoard{grid-template-columns:1fr}}
+.clueCard{
+  text-align:left;padding:14px 15px;border:1px solid rgba(143,160,189,.28);
+  border-radius:5px;background:rgba(6,10,20,.7);
+  display:flex;flex-direction:column;gap:6px;min-height:64px;transition:border-color .15s;
+}
+.clueCard:hover{border-color:var(--cyan)}
+.clueCard.revealed{border-color:rgba(255,209,102,.5);background:rgba(255,209,102,.06)}
+.clueLabel{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;color:var(--amber)}
+.clueBody{font-size:15.5px;color:#e6edf9;line-height:1.6}
+
+.choiceBoard{display:flex;flex-direction:column;gap:9px;margin-top:4px}
+.choiceCard{
+  text-align:left;padding:14px 16px;border:1px solid rgba(143,160,189,.28);
+  border-radius:5px;background:rgba(6,10,20,.6);font-size:16px;line-height:1.65;color:#eef3fc;
+  transition:border-color .15s, background .15s;
+}
+.choiceCard:hover{border-color:var(--cyan2);background:rgba(56,189,248,.06)}
+.choiceCard.correct{border-color:var(--green);background:rgba(52,211,153,.12)}
+.choiceCard.wrong{border-color:var(--red);background:rgba(255,59,87,.12)}
+.choiceCard.disabled{pointer-events:none;opacity:.75}
+
+.feedbackBox{
+  margin-top:14px;padding:14px 17px;border-radius:5px;font-size:15.5px;line-height:1.65;
+}
+.feedbackBox.ok{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.4);color:#c8f7e6}
+.feedbackBox.bad{background:rgba(255,59,87,.1);border:1px solid rgba(255,59,87,.4);color:#ffd7dd}
+
+.lockoutOverlay{
+  display:none;position:fixed;inset:0;z-index:20;align-items:center;justify-content:center;
+  background:rgba(2,4,10,.82);backdrop-filter:blur(2px);
+}
+.lockoutOverlay.show{display:flex}
+.lockoutBox{text-align:center}
+.lockoutNumber{font-family:"IBM Plex Mono",monospace;font-size:64px;color:var(--red);text-shadow:0 0 24px rgba(255,59,87,.5)}
+.lockoutLabel{margin-top:10px;color:var(--muted);font-size:14.5px;letter-spacing:.1em}
+
+/* ---------- guide ---------- */
+.guideList{margin:18px 0 0;padding:0;list-style:none}
+.guideItem{
+  display:flex;align-items:flex-start;gap:12px;width:100%;text-align:left;
+  padding:14px 12px;line-height:1.65;color:#8fa0bd;font-size:16px;
+  border-bottom:1px dashed rgba(143,160,189,.18);
+  background:none;border-radius:4px;transition:background .15s, color .15s;
+}
+.guideItem:hover{background:rgba(56,189,248,.06)}
+.guideCheck{
+  flex:none;width:22px;height:22px;margin-top:1px;border-radius:5px;
+  border:1.5px solid rgba(143,160,189,.45);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:transparent;transition:all .15s;
+}
+.guideItem.checked{color:#e6edf9}
+.guideItem.checked .guideCheck{
+  background:var(--green);border-color:var(--green);color:#04201a;
+}
+.guideHint{
+  text-align:center;color:var(--muted);font-size:13px;margin-top:10px;letter-spacing:.02em;
+}
+
+/* ---------- result / over ---------- */
+.resultBig{text-align:center;margin:14px 0 4px}
+.resultTime{font-family:"IBM Plex Mono",monospace;font-size:44px;color:var(--cyan2);letter-spacing:.03em}
+.resultSub{text-align:center;color:var(--muted);font-size:14.5px;margin-bottom:22px}
+
+.center{text-align:center}
+</style>
+</head>
+<body>
+
+<div class="bg-scene" aria-hidden="true">
+<svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="glowCyan" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity=".5"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowRed" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff3b57" stop-opacity=".4"/>
+      <stop offset="100%" stop-color="#ff3b57" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowAmber" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffd166" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#ffd166" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="42" height="42" patternUnits="userSpaceOnUse">
+      <path d="M 42 0 L 0 0 0 42" fill="none" stroke="#5cc9ff" stroke-opacity=".15" stroke-width="1"/>
+    </pattern>
+    <pattern id="watermark" width="520" height="220" patternUnits="userSpaceOnUse" patternTransform="rotate(-18)">
+      <text x="0" y="60" font-family="Black Han Sans, sans-serif" font-size="70" fill="#ffffff" fill-opacity=".05" letter-spacing="6">COMPLIANCE</text>
+      <text x="60" y="170" font-family="IBM Plex Mono, monospace" font-size="26" fill="#5cc9ff" fill-opacity=".07" letter-spacing="10">'26 H2 SURVIVAL EVENT</text>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="900" fill="#0b1526"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <circle cx="180" cy="140" r="420" fill="url(#glowCyan)"/>
+  <circle cx="1420" cy="800" r="480" fill="url(#glowRed)"/>
+  <circle cx="1300" cy="120" r="300" fill="url(#glowAmber)"/>
+  <rect width="1600" height="900" fill="url(#watermark)"/>
+
+  <!-- 중앙 공식 엠블럼 -->
+  <g transform="translate(800,450)" opacity=".9">
+    <circle r="230" fill="none" stroke="#5cc9ff" stroke-opacity=".28" stroke-width="2"/>
+    <circle r="230" fill="none" stroke="#5cc9ff" stroke-opacity=".5" stroke-width="1.4" stroke-dasharray="1 11"/>
+    <circle r="188" fill="none" stroke="#ffd166" stroke-opacity=".35" stroke-width="1.4"/>
+    <g stroke="#9fe3ff" stroke-opacity=".55" stroke-width="2">
+      <line x1="0" y1="-230" x2="0" y2="-250"/>
+      <line x1="0" y1="230" x2="0" y2="250"/>
+      <line x1="-230" y1="0" x2="-250" y2="0"/>
+      <line x1="230" y1="0" x2="250" y2="0"/>
+    </g>
+    <!-- 방패 아이콘 -->
+    <path d="M0,-92 L74,-58 L74,18 C74,74 40,110 0,128 C-40,110 -74,74 -74,18 L-74,-58 Z"
+          fill="none" stroke="#7dd8ff" stroke-opacity=".65" stroke-width="3.5"/>
+    <path d="M-34,4 L-10,30 L38,-26" fill="none" stroke="#ffd166" stroke-opacity=".8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="0" y="-262" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="15" letter-spacing="6" fill="#cfe9ff" fill-opacity=".55">OFFICIAL COMPLIANCE EVENT</text>
+    <text x="0" y="278" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="15" letter-spacing="6" fill="#ffd8a8" fill-opacity=".55">THE ANSWER · 공정의 시대</text>
+  </g>
+
+  <!-- 관계도: 노드와 연결선 -->
+  <g stroke="#ff5470" stroke-width="1.4" stroke-opacity=".45" stroke-dasharray="2 6">
+    <line x1="140" y1="210" x2="430" y2="360"/>
+    <line x1="430" y1="360" x2="360" y2="620"/>
+    <line x1="1180" y1="230" x2="1460" y2="420"/>
+    <line x1="1460" y1="420" x2="1300" y2="700"/>
+  </g>
+  <g fill="#38bdf8" fill-opacity=".8">
+    <circle cx="140" cy="210" r="4.5"/>
+    <circle cx="430" cy="360" r="5.5"/>
+    <circle cx="360" cy="620" r="4"/>
+    <circle cx="1180" cy="230" r="4.5"/>
+    <circle cx="1460" cy="420" r="5"/>
+    <circle cx="1300" cy="700" r="4"/>
+  </g>
+
+  <!-- 증거 카드 프레임(코너 브래킷) -->
+  <g stroke="#9fe3ff" stroke-opacity=".5" stroke-width="2.2" fill="none">
+    <path d="M 90 470 h20 M 90 470 v20"/>
+    <path d="M 300 470 h-20 M 300 470 v20"/>
+    <path d="M 90 640 h20 M 90 640 v-20"/>
+    <path d="M 300 640 h-20 M 300 640 v-20"/>
+
+    <path d="M 1230 480 h22 M 1230 480 v22"/>
+    <path d="M 1480 480 h-22 M 1480 480 v22"/>
+    <path d="M 1230 660 h22 M 1230 660 v-22"/>
+    <path d="M 1480 660 h-22 M 1480 660 v-22"/>
+  </g>
+
+  <!-- 레다크션 바 (기밀 표시) -->
+  <g fill="#0b1220" fill-opacity=".5">
+    <rect x="120" y="520" width="150" height="10" rx="2"/>
+    <rect x="120" y="545" width="110" height="10" rx="2"/>
+    <rect x="1260" y="530" width="170" height="10" rx="2"/>
+    <rect x="1260" y="555" width="130" height="10" rx="2"/>
+  </g>
+</svg>
+</div>
+<div class="bg-scrim" aria-hidden="true"></div>
+
+<!-- ============ 상단 고정 브랜드 바 ============ -->
+<div class="topBrand">
+  <span class="topBrandDot"></span>
+  <span class="topBrandYear">'26 하반기</span>
+  <span class="topBrandName">컴플라이언스 이벤트</span>
+  <span class="topBrandDivider">|</span>
+  <span class="topBrandGame mono">THE ANSWER : 공정의 시대</span>
+</div>
+
+<!-- ============ 화면 1: 참가자 등록 ============ -->
+<div id="page-entry" class="screen">
+  <div class="panel center">
+    <div class="eventBanner">
+      <span class="eventYear">'26 하반기</span>
+      <span class="eventName">컴플라이언스 이벤트</span>
+    </div>
+    <div class="subtitle mono">THE ANSWER</div>
+    <h1 class="display">공정의 시대</h1>
+    <div class="tag">SURVIVAL GAME</div>
+    <p class="lead">4개의 사건, 4번의 추론.<br>가장 진실에 가까운 답을 찾아 끝까지 생존하십시오.</p>
+    <div class="idrow">
+      <input id="knoxInput" type="text" placeholder="참가자 ID (사번)를 입력하세요" maxlength="24">
+      <button id="startBtn" class="primary">등록</button>
+    </div>
+    <div id="entryError"></div>
+  </div>
+</div>
+
+<!-- ============ 화면 2: 룰 설명 ============ -->
+<div id="page-rules" class="screen hidden">
+  <div class="panel">
+    <div class="tag">RULES</div>
+    <h1 class="display" style="font-size:30px">게임 룰</h1>
+    <p class="lead">총 4개의 사건이 순서대로 제시됩니다. 각 사건마다 단서를 확인하고, 가장 진실에 가까운 추론을 선택하세요.</p>
+    <ul class="ruleList">
+      <li>생존 하트는 <b>총 3개</b>이며, 오답을 고를 때마다 하트가 1개씩 줄어듭니다. 하트가 모두 사라지면 <b>탈락</b>합니다.</li>
+      <li>단서는 원하는 만큼 열람할 수 있지만, 단서 1개를 확인할 때마다 <b>기록에 +10초</b>가 페널티로 더해집니다.</li>
+      <li>오답을 고르면 <b>+30초 페널티</b>와 함께 잠시 재도전이 제한됩니다.</li>
+      <li>4개 사건을 모두 해결하면 <b>생존 기록(시간)</b>이 저장되고, 참가자 랭킹에 등록됩니다.</li>
+      <li>기록이 짧을수록 상위 랭킹에 오릅니다 — 정확하고 빠르게 추론하세요.</li>
+    </ul>
+    <button id="toGameBtn" class="primary wide">게임 시작</button>
+  </div>
+</div>
+
+<!-- ============ 화면 3: 게임 ============ -->
+<div id="page-game" class="screen hidden">
+  <div class="gameWrap">
+    <div class="hud">
+      <div class="hudLeft">
+        <div id="epBadge" class="mono">EPISODE 1 / 3</div>
+        <div id="epTopic" class="topic"></div>
+      </div>
+      <div id="timerDisplay" class="hudTimer">00:00.00</div>
+      <div id="heartsDisplay" class="hearts"></div>
+    </div>
+
+    <div class="caseCard">
+      <div id="caseTitle" class="caseTitle display"></div>
+      <div id="caseIntro" class="caseIntro"></div>
+    </div>
+
+    <div class="sectionLabel">// 단서 확인</div>
+    <div id="clueBoard" class="clueBoard"></div>
+
+    <div class="sectionLabel">// 사건의 전말은?</div>
+    <div id="choiceBoard" class="choiceBoard"></div>
+
+    <div id="feedbackBox" class="feedbackBox hidden"></div>
+  </div>
+</div>
+
+<div id="lockoutOverlay" class="lockoutOverlay">
+  <div class="lockoutBox">
+    <div id="lockoutNumber" class="lockoutNumber mono">5</div>
+    <div class="lockoutLabel mono">재도전 대기중...</div>
+  </div>
+</div>
+
+<!-- ============ 화면 4: 가이드 (라운드 사이) ============ -->
+<div id="page-guide" class="screen hidden">
+  <div class="panel">
+    <div class="tag green">CASE CLOSED</div>
+    <h1 id="guideTitle" class="display" style="font-size:26px"></h1>
+    <ul id="guideList" class="guideList"></ul>
+    <div id="guideHint" class="guideHint">항목을 하나씩 눌러 확인해 주세요 (0/0)</div>
+    <button id="guideNextBtn" class="primary wide" disabled>다음 사건으로</button>
+  </div>
+</div>
+
+<!-- ============ 화면 5: 탈락 ============ -->
+<div id="page-over" class="screen hidden">
+  <div class="panel center">
+    <div class="tag red">SURVIVAL FAILED</div>
+    <h1 class="display">탈락</h1>
+    <p class="lead">모든 하트를 소진했습니다.<br>재도전 시 하트는 3개로 초기화되지만,<br><b>지금까지 걸린 시간은 그대로 이어집니다.</b></p>
+    <button class="primary wide restartBtn">다시 도전하기</button>
+  </div>
+</div>
+
+<!-- ============ 화면 6: 최종 결과 ============ -->
+<div id="page-result" class="screen hidden">
+  <div class="panel">
+    <div class="tag green center" style="display:block;text-align:center">MISSION CLEAR</div>
+    <h1 class="display center">사건 종결</h1>
+    <div class="resultBig"><span id="resultTime" class="resultTime">00:00.00</span></div>
+    <div class="resultSub">참가자 <span id="resultId" class="mono"></span> 님, 모든 사건을 해결하셨습니다!</div>
+    <p class="lead" style="margin-top:8px">수고하셨습니다. 참여가 완료되었습니다.</p>
+  </div>
+</div>
+
+<script>
+/* ================== THE ANSWER : 공정의 시대 - 생존 서바이벌 ================== */
+
+// -------- 참가자 중복 확인 + 랭킹 저장용 엔드포인트 --------
+// 아래 값을 비워두면 "같은 브라우저 내"에서만 중복 참여가 방지됩니다 (기기가 다르면 우회 가능).
+// 참가자가 각자 다른 기기(휴대폰/노트북)로 참여한다면, 반드시 Google Sheet + Apps Script를
+// 배포하여 아래에 그 URL을 넣어야 실제로 "1인 1회" 참여 제한이 걸립니다.
+// (Apps Script 코드는 별도로 전달드린 google-apps-script.js 파일을 참고해 배포하세요.)
+const RANKING_ENDPOINT = "https://script.google.com/macros/s/AKfycbxa7EUAemj7B3MbaHrlt1o4HlLLBMePWl4YJAIrt6WODbRjHKE-ytRqNbcniSooS_XRYg/exec"; // 예: "https://script.google.com/macros/s/XXXX/exec"
+const LOCAL_RANK_KEY = "compliance_survival_ranking_v1";
+const LOCAL_LOG_KEY = "compliance_survival_participants_v1";
+
+// -------- 에피소드(사건) 데이터 --------
+const EPISODES = [
+  {
+    ep: 1,
+    topic: "정보보호 · 하도급",
+    caseTitle: "사건 01. 사라진 핵심공법",
+    intro:
+      "수년간의 연구 끝에 독자적인 핵심 공법을 개발한 A사.\n그런데 동일 프로젝트에 입찰한 경쟁사 B사의 설계안에서 A사의 핵심 구조와 동일한 내용이 발견되었다.\n해당 공법은 극소수 인원만 접근 가능한 사내 보안 자료였는데, 대체 어떻게 B사로 넘어간 것일까?",
+    clues: [
+      "A사는 정식 계약 체결 전부터 외부 협력업체 C사에 기술개발용역을 요청했다.",
+      "A사가 C사에 통보한 개발용역 단가는 업계 평균의 절반에도 못 미쳤고, 일정도 촉박했다.",
+      "A사와 C사 사이에는 비밀유지계약(NDA)이 체결되지 않았다.",
+      "C사 담당자는 보고서를 빠르게 작성하기 위해 외부 생성형 AI 도구에 자료를 그대로 입력했다."
+    ],
+    choices: [
+      { text: "C사가 보안 통제 없는 외부 AI에 자료를 입력해 유출된 것으로, 이는 전적으로 C사만의 부주의에서 비롯된 사고다.", correct: false },
+      { text: "A사가 정식 계약 전부터 무리하게 용역을 요청한 것이 근본 원인이며, C사의 AI 사용 여부는 이번 유출과는 관계가 없다.", correct: false },
+      { text: "무리한 하도급 조건 속에서 C사가 보안 통제 없는 외부 AI에 자료를 입력해 유출됐고, A사의 불공정한 하도급 관행도 함께 원인이 됐다.", correct: true },
+      { text: "A사와 C사 간 NDA(비밀유지계약)가 없었던 것이 유일한 문제이며, 단가나 일정 등 나머지 정황은 이번 유출 사고와 무관하다.", correct: false }
+    ],
+    guideTitle: "정보보호 · 하도급 핵심 가이드",
+    guidePoints: [
+      "비공개 기술·경영 정보는 영업비밀로 철저히 관리한다.",
+      "기술자료·고객정보 등을 외부 AI 도구에 무단으로 입력하지 않는다.",
+      "정보 공유 전 NDA(비밀유지계약)를 반드시 체결한다.",
+      "하도급 계약 체결 전 업무 착수를 지시하지 않으며, 정당한 대금을 지급한다."
+    ]
+  },
+  {
+    ep: 2,
+    topic: "Integrity · 고용노동",
+    caseTitle: "사건 02. 신입사원의 퇴사",
+    intro:
+      "성과가 좋기로 유명한 A팀. 문제없어 보이던 그 조직에서 한 신입사원이 '개인 사정'으로 돌연 퇴사했다.\n하지만 남겨진 기록들은 그 말이 전부가 아니었음을 암시하는데...",
+    clues: [
+      "선배는 신입에게 업무와 무관한 지시(과도한 커피 심부름 등)를 반복했다.",
+      "신입은 담당 프로젝트의 미팅 일정 공유에서 의도적으로 배제됐다.",
+      "선배는 신입의 옷차림·외모를 반복 평가하고, 업무상 필요를 넘어선 신체 접촉을 했다.",
+      "선배는 수치가 잘못된 걸 알면서도 신입에게 결재 상신을 강요했고, 문제가 생기자 책임을 떠넘겼다."
+    ],
+    choices: [
+      { text: "선배의 반복적인 지시와 소통 부족이 문제였지만, 성희롱이나 명백한 Integrity 위반이라고까지 보기는 어렵다.", correct: false },
+      { text: "외모 평가나 신체 접촉은 성희롱에 해당하지만, 정보 공유 배제와 책임 전가는 단순한 업무 미숙으로 봐야 한다.", correct: false },
+      { text: "선배의 반복적 업무 배제·괴롭힘, 성희롱적 언행, 책임 전가라는 Integrity 위반이 겹쳐 신입을 벼랑 끝으로 몰았다.", correct: true },
+      { text: "잘못된 결재 상신에 응한 신입사원의 태도가 더 큰 문제이며, 선배의 언행은 친밀감의 표현으로 볼 여지가 있다.", correct: false }
+    ],
+    guideTitle: "Integrity · 직장 내 괴롭힘·성희롱 예방 가이드",
+    guidePoints: [
+      "정당한 이유 없이 특정 구성원을 업무에서 배제하거나 소외시키지 않는다.",
+      "외모 평가, 원치 않는 신체 접촉 등 성적 불쾌감을 주는 언행을 금지한다.",
+      "문제를 인지하면 즉시 중단하고 보고하며, 책임을 타인에게 전가하지 않는다.",
+      "권한과 정보를 독점하지 않고 동료와 충분히 소통·공유한다."
+    ]
+  },
+  {
+    ep: 3,
+    topic: "공정거래 · 부패방지",
+    caseTitle: "사건 03. 교량 붕괴의 전말",
+    intro:
+      "A사가 수주한 교량 건설 현장에서 붕괴 사고가 발생했다.\n처음엔 단순 사고처럼 보였지만, 남겨진 자료와 기록에서 쉽게 납득되지 않는 정황들이 발견되기 시작했다.",
+    clues: [
+      "A, B, C 세 건설사가 입찰마다 돌아가며 메인·들러리를 맡기로 정한 순번표가 발견됐다.",
+      "A사 관계자가 발주처 담당 공무원에게 고가의 선물과 골드바를 건넨 영수증이 발견됐다.",
+      "A사는 담합 이탈을 의심해 합의된 금액보다 낮게 투찰했고, 예상보다 훨씬 낮은 금액에 낙찰됐다.",
+      "낮은 수주 금액을 맞추려 무리하게 자재를 변경하고 공기를 단축했으며, 균열 등 이상 징후에도 조치가 없었다."
+    ],
+    choices: [
+      { text: "입찰 담합과 뇌물 제공이 있었던 것은 사실이지만, 붕괴 사고는 그와 무관한 별개의 부실시공 문제다.", correct: false },
+      { text: "발주처 공무원에 대한 뇌물 제공이 근본 원인이며, 저가 수주로 인한 공사비·공기 압박은 사고와 직접 관련이 없다.", correct: false },
+      { text: "입찰 담합, 뇌물 제공, 그리고 무리한 저가 수주로 인한 원가·공기 압박이 겹쳐 일어난 예견된 사고였다.", correct: true },
+      { text: "무리한 저가 수주로 인한 공사비 압박이 유일한 원인이며, 입찰 담합이나 뇌물 제공은 이번 붕괴와는 별개의 사안이다.", correct: false }
+    ],
+    guideTitle: "공정거래 · 부패방지 핵심 가이드",
+    guidePoints: [
+      "경쟁사와 낙찰자·가격·물량 등을 사전에 조율하는 입찰 담합을 금지한다.",
+      "공직자·발주처 등에게 금품이나 향응을 제공하지 않는다(청탁금지법 준수).",
+      "무리한 저가 수주로 원가·공기를 비정상적으로 압박하지 않는다.",
+      "이상 징후 발견 시 즉시 보고하고 필요한 안전 조치를 취한다."
+    ]
+  },
+  {
+    ep: 4,
+    topic: "종합 응용 · 협력사 선물",
+    caseTitle: "사건 04. 명절 선물, 어떻게 해야 할까?",
+    intro:
+      "구매팀 김 대리는 명절을 앞두고 협력사로부터 문자로 선물 배송 안내를 받았다.\n며칠 뒤, 실제로 과일 선물세트가 회사 주소로 배송되어 왔다.\n김 대리는 이걸 어떻게 처리해야 할지 고민에 빠졌다.",
+    clues: [
+      "회사 규정은 협력사로부터의 선물·금전 등을 금액과 관계없이 수취 금지하고 있다(뇌물수수 금지).",
+      "선물은 이미 회사 주소로 실제 배송되어 김 대리 자리에 놓여 있다.",
+      "김 대리는 아직 부서장에게 이 사실을 알리지 않은 상태다.",
+      "인사팀 전달 등 회사가 정한 반납 절차는 아직 진행되지 않았다."
+    ],
+    choices: [
+      { text: "과일 선물이라 금액이 크지 않으니, 그냥 감사히 받고 넘어간다.", correct: false },
+      { text: "부서장에게 알리지 않고, 본인이 조용히 협력사에 반송 처리한다.", correct: false },
+      { text: "즉시 부서장에게 보고하고, 회사가 정한 절차에 따라 인사팀에 선물을 전달한다.", correct: true },
+      { text: "협력사와의 친분을 생각해 우선 감사 인사만 전하고, 선물은 그대로 보관해 둔다.", correct: false }
+    ],
+    guideTitle: "협력사 선물 · 접대 처리 가이드",
+    guidePoints: [
+      "협력사로부터의 선물·금전 등은 금액과 관계없이 원칙적으로 받지 않는다(뇌물수수 금지).",
+      "문자·메일로 선물 수신 사실을 알게 됐거나 이미 받은 경우, 즉시 부서장에게 보고하고 인사팀에 전달한다.",
+      "협력사와의 식사·술자리 등 향응은 자제하며, 불가피한 경우 반드시 회사 비용(법인카드)으로 처리한다.",
+      "협력사와 금전을 빌리거나 빌려주는 행위, 협력사에 비용을 부담시키거나 특혜를 제공하는 행위도 모두 금지된다.",
+      "개인적 친분이 있는 협력사 담당자와도 선물·접대는 자제하고, 판단이 어려우면 컴플라이언스팀에 미리 상의한다."
+    ]
+  }
+];
+
+// -------- 상태 --------
+const state = {
+  knoxId: "",
+  hearts: 3,
+  epIndex: 0,
+  revealedClues: [],
+  penaltySeconds: 0,
+  startTime: 0,
+  carriedMs: 0,
+  timerHandle: null,
+  locked: false,
+  finished: false
+};
+
+function $(id) { return document.getElementById(id); }
+
+function fmtTime(ms) {
+  const totalCentis = Math.max(0, Math.floor(ms / 10));
+  const cs = totalCentis % 100;
+  const totalSec = Math.floor(totalCentis / 100);
+  const sec = totalSec % 60;
+  const min = Math.floor(totalSec / 60);
+  return String(min).padStart(2, "0") + ":" + String(sec).padStart(2, "0") + "." + String(cs).padStart(2, "0");
+}
+
+function safe(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(el => el.classList.add("hidden"));
+  $(id).classList.remove("hidden");
+}
+
+/* -------- 화면 1: Knox ID 입력 -------- */
+function initEntry() {
+  const input = $("knoxInput");
+  const btn = $("startBtn");
+  const err = $("entryError");
+
+  btn.addEventListener("click", () => handleEntrySubmit(input, btn, err));
+  input.addEventListener("keydown", e => { if (e.key === "Enter") handleEntrySubmit(input, btn, err); });
+}
+
+async function handleEntrySubmit(input, btn, err) {
+  const v = (input.value || "").trim();
+  if (!v) {
+    err.textContent = "참가자 ID를 입력해 주세요.";
+    return;
+  }
+  state.carriedMs = 0;
+  err.textContent = "";
+
+  if (!RANKING_ENDPOINT) {
+    // 서버 미설정: 별도 중복 확인 없이 진행
+    state.knoxId = v;
+    logParticipant(v);
+    showScreen("page-rules");
+    return;
+  }
+
+  btn.disabled = true;
+  const originalText = btn.textContent;
+  btn.textContent = "확인 중...";
+
+  try {
+    const res = await fetch(RANKING_ENDPOINT + "?action=enter&id=" + encodeURIComponent(v) + "&_=" + Date.now());
+    const data = await res.json();
+    if (data && data.alreadyUsed) {
+      err.textContent = "이미 참여하신 ID입니다. (1인 1회만 참여 가능)";
+      btn.disabled = false;
+      btn.textContent = originalText;
+      return;
+    }
+    state.knoxId = v;
+    logParticipant(v);
+    showScreen("page-rules");
+  } catch (e) {
+    // 서버 확인 실패(네트워크 오류 등) 시, 참여 자체가 막히지 않도록 진행은 허용하되 콘솔에 남김
+    console.warn("참여 확인 서버 호출 실패:", e);
+    state.knoxId = v;
+    logParticipant(v);
+    showScreen("page-rules");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
+}
+
+function logParticipant(id) {
+  try {
+    const rows = JSON.parse(localStorage.getItem(LOCAL_LOG_KEY) || "[]");
+    rows.push({ knoxId: id, enteredAt: new Date().toISOString() });
+    localStorage.setItem(LOCAL_LOG_KEY, JSON.stringify(rows));
+  } catch (e) { /* noop */ }
+}
+
+/* -------- 화면 2: 룰 설명 -------- */
+function initRules() {
+  $("toGameBtn").addEventListener("click", startGame);
+}
+
+/* -------- 화면 3: 게임 -------- */
+function startGame() {
+  state.hearts = 3;
+  state.epIndex = 0;
+  state.penaltySeconds = 0;
+  state.finished = false;
+  state.startTime = performance.now();
+  showScreen("page-game");
+  startTimer();
+  renderEpisode();
+}
+
+function startTimer() {
+  clearInterval(state.timerHandle);
+  state.timerHandle = setInterval(() => {
+    const elapsed = performance.now() - state.startTime + state.penaltySeconds * 1000 + state.carriedMs;
+    $("timerDisplay").textContent = fmtTime(elapsed);
+  }, 50);
+}
+
+function stopTimer() {
+  clearInterval(state.timerHandle);
+}
+
+function renderHearts() {
+  const wrap = $("heartsDisplay");
+  wrap.innerHTML = "";
+  for (let i = 0; i < 3; i++) {
+    const span = document.createElement("span");
+    span.className = "heart" + (i < state.hearts ? "" : " off");
+    wrap.appendChild(span);
+  }
+}
+
+function renderEpisode() {
+  state.locked = false;
+  state.revealedClues = [];
+  const data = EPISODES[state.epIndex];
+  renderHearts();
+  $("epBadge").textContent = "EPISODE " + data.ep + " / " + EPISODES.length;
+  $("epTopic").textContent = data.topic;
+  $("caseTitle").textContent = data.caseTitle;
+  $("caseIntro").textContent = data.intro;
+
+  const clueBoard = $("clueBoard");
+  clueBoard.innerHTML = "";
+  data.clues.forEach((clueText, idx) => {
+    const card = document.createElement("button");
+    card.className = "clueCard";
+    card.type = "button";
+    card.innerHTML = '<span class="clueLabel">단서 ' + (idx + 1) + '</span><span class="clueBody">탭하여 확인 (+10초 페널티)</span>';
+    card.addEventListener("click", () => revealClue(idx, card, clueText));
+    clueBoard.appendChild(card);
+  });
+
+  const choiceBoard = $("choiceBoard");
+  choiceBoard.innerHTML = "";
+  data.choices.forEach((choice, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "choiceCard";
+    btn.type = "button";
+    btn.textContent = choice.text;
+    btn.addEventListener("click", () => submitAnswer(idx, btn));
+    choiceBoard.appendChild(btn);
+  });
+
+  $("feedbackBox").classList.add("hidden");
+  $("feedbackBox").textContent = "";
+}
+
+function revealClue(idx, cardEl, text) {
+  if (state.locked) return;
+  if (state.revealedClues.includes(idx)) return;
+  state.revealedClues.push(idx);
+  state.penaltySeconds += 10;
+  cardEl.classList.add("revealed");
+  cardEl.innerHTML = '<span class="clueLabel">단서 ' + (idx + 1) + '</span><span class="clueBody">' + safe(text) + "</span>";
+}
+
+function submitAnswer(idx, btnEl) {
+  if (state.locked) return;
+  state.locked = true;
+  const data = EPISODES[state.epIndex];
+  const choice = data.choices[idx];
+
+  document.querySelectorAll("#choiceBoard .choiceCard").forEach(b => b.classList.add("disabled"));
+
+  if (choice.correct) {
+    btnEl.classList.add("correct");
+    showFeedback(true, "정답입니다! " + data.guideTitle + " 핵심을 정확히 짚어냈습니다.");
+    setTimeout(() => afterCorrect(), 1400);
+  } else {
+    btnEl.classList.add("wrong");
+    state.hearts -= 1;
+    state.penaltySeconds += 30;
+    renderHearts();
+    if (state.hearts <= 0) {
+      showFeedback(false, "오답입니다. 생존에 실패했습니다...");
+      setTimeout(() => gameOver(), 1400);
+    } else {
+      showFeedback(false, "오답입니다. 페널티 30초가 부과됩니다. 5초 후 재도전할 수 있습니다.");
+      startLockout(5);
+    }
+  }
+}
+
+function showFeedback(ok, msg) {
+  const box = $("feedbackBox");
+  box.classList.remove("hidden");
+  box.classList.toggle("ok", ok);
+  box.classList.toggle("bad", !ok);
+  box.textContent = msg;
+}
+
+function startLockout(seconds) {
+  let remain = seconds;
+  const overlay = $("lockoutOverlay");
+  overlay.classList.add("show");
+  $("lockoutNumber").textContent = remain;
+  const handle = setInterval(() => {
+    remain -= 1;
+    if (remain <= 0) {
+      clearInterval(handle);
+      overlay.classList.remove("show");
+      renderEpisode();
+    } else {
+      $("lockoutNumber").textContent = remain;
+    }
+  }, 1000);
+}
+
+function afterCorrect() {
+  showGuide(EPISODES[state.epIndex], () => {
+    state.epIndex += 1;
+    if (state.epIndex >= EPISODES.length) {
+      finishGame(true);
+    } else {
+      renderEpisode();
+    }
+  });
+}
+
+function showGuide(data, onDone) {
+  showScreen("page-guide");
+  $("guideTitle").textContent = data.guideTitle;
+  const list = $("guideList");
+  const hint = $("guideHint");
+  const btn = $("guideNextBtn");
+  list.innerHTML = "";
+
+  const total = data.guidePoints.length;
+  let checkedCount = 0;
+
+  function updateHint() {
+    hint.textContent = checkedCount >= total
+      ? "모든 항목을 확인했습니다."
+      : "항목을 하나씩 눌러 확인해 주세요 (" + checkedCount + "/" + total + ")";
+    btn.disabled = checkedCount < total;
+  }
+
+  data.guidePoints.forEach(p => {
+    const li = document.createElement("li");
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "guideItem";
+    item.innerHTML = '<span class="guideCheck">✓</span><span class="guideText"></span>';
+    item.querySelector(".guideText").textContent = p;
+    item.addEventListener("click", () => {
+      if (item.classList.contains("checked")) return;
+      item.classList.add("checked");
+      checkedCount += 1;
+      updateHint();
+    });
+    li.appendChild(item);
+    list.appendChild(li);
+  });
+
+  updateHint();
+  btn.textContent = (state.epIndex >= EPISODES.length - 1) ? "최종 결과 보기" : "다음 사건으로";
+  const handler = () => {
+    if (btn.disabled) return;
+    btn.removeEventListener("click", handler);
+    showScreen("page-game");
+    onDone();
+  };
+  btn.addEventListener("click", handler);
+}
+
+function gameOver() {
+  stopTimer();
+  const elapsedSoFar = performance.now() - state.startTime + state.penaltySeconds * 1000;
+  state.carriedMs += elapsedSoFar;
+  showScreen("page-over");
+}
+
+function finishGame(success) {
+  stopTimer();
+  state.finished = true;
+  const elapsedMs = performance.now() - state.startTime + state.penaltySeconds * 1000 + state.carriedMs;
+  $("resultTime").textContent = fmtTime(elapsedMs);
+  $("resultId").textContent = state.knoxId;
+  showScreen("page-result");
+  saveMyRecord(state.knoxId, elapsedMs);
+}
+
+/* -------- 개인 기록 저장 (랭킹판 없이, 참고용 로그만) -------- */
+function saveMyRecord(id, timeMs) {
+  try {
+    const rows = JSON.parse(localStorage.getItem(LOCAL_RANK_KEY) || "[]");
+    rows.push({ knoxId: id, timeMs: timeMs, timeText: fmtTime(timeMs), at: new Date().toISOString() });
+    localStorage.setItem(LOCAL_RANK_KEY, JSON.stringify(rows));
+  } catch (e) { /* noop */ }
+
+  if (RANKING_ENDPOINT) {
+    const url = RANKING_ENDPOINT + "?action=submit&id=" + encodeURIComponent(id) + "&timeMs=" + Math.round(timeMs);
+    fetch(url).catch(e => console.warn("완료 기록 전송 실패:", e));
+  }
+}
+
+/* -------- 재시작 -------- */
+function initRestartButtons() {
+  document.querySelectorAll(".restartBtn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      showScreen("page-rules");
+    });
+  });
+}
+
+/* -------- 관리자(참가자 로그) -------- */
+function openAdmin() {
+  let rows = [];
+  try { rows = JSON.parse(localStorage.getItem(LOCAL_LOG_KEY) || "[]"); } catch (e) {}
+  const w = window.open("", "_blank");
+  if (!w) return;
+  const trs = rows.map((r, i) => "<tr><td>" + (i + 1) + "</td><td>" + safe(r.knoxId) + "</td><td>" + safe(r.enteredAt) + "</td></tr>").join("");
+  w.document.write(
+    "<!doctype html><meta charset='utf-8'><title>Admin</title>" +
+    "<style>body{font-family:Arial;background:#07101f;color:#dbe5ef;padding:30px}table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid #26364b;text-align:left}</style>" +
+    "<h1>PARTICIPANT LOG</h1><p>" + rows.length + " records (local browser only)</p>" +
+    "<table><tr><th>#</th><th>ID</th><th>Entered</th></tr>" + trs + "</table>"
+  );
+  w.document.close();
+}
+
+document.addEventListener("keydown", e => {
+  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a") {
+    e.preventDefault();
+    openAdmin();
+  }
+});
+
+/* -------- 초기화 -------- */
+function init() {
+  initEntry();
+  initRules();
+  initRestartButtons();
+  showScreen("page-entry");
+}
+
+document.addEventListener("DOMContentLoaded", init);
+
+</script>
+</body>
+</html>
