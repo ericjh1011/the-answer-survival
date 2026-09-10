@@ -897,9 +897,23 @@ function finishGame(success) {
   $("resultTime").textContent = fmtTime(elapsedMs);
   $("resultId").textContent = state.knoxId;
   
-  // 랜덤 응모 코드 생성
-  const randomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
-  $("entry-code").textContent = "COMP-" + randomCode;
+  // 1. 걸린 시간을 초(Seconds) 단위로 변환하고 4자리 숫자로 패딩
+  const totalSeconds = Math.floor(elapsedMs / 1000);
+  const timeStr = String(totalSeconds).padStart(4, "0");
+  
+  // 2. 무작위 대문자 알파벳(A~Z) 생성 함수
+  const getLetter = () => String.fromCharCode(65 + Math.floor(Math.random() * 26));
+  
+  // 3. 알파벳과 숫자(시간)를 교차 결합 (예: X0K1-P2T5)
+  const secretCode = getLetter() + timeStr[0] +
+                     getLetter() + timeStr[1] +
+                     "-" +
+                     getLetter() + timeStr[2] +
+                     getLetter() + timeStr[3];
+                     
+  // 4. 닉네임 공백 제거 후 암호화 코드와 결합
+  const cleanName = state.knoxId.replace(/\s+/g, "");
+  $("entry-code").textContent = cleanName + "-" + secretCode;
   
   showScreen("page-result");
   saveMyRecord(state.knoxId, elapsedMs);
