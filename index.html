@@ -368,7 +368,7 @@ p.lead{color:var(--muted);line-height:1.8;font-size:17px}
     <div class="tag">SURVIVAL GAME</div>
     <p class="lead">4개의 사건, 4번의 추론.<br>가장 진실에 가까운 답을 찾아 끝까지 생존하십시오.</p>
     <div class="idrow">
-      <input id="knoxInput" type="text" placeholder="참가자 ID (사번)를 입력하세요" maxlength="24">
+      <input id="knoxInput" type="text" placeholder="닉네임을 입력해 주세요" maxlength="24">
       <button id="startBtn" class="primary">등록</button>
     </div>
     <div id="entryError"></div>
@@ -449,12 +449,26 @@ p.lead{color:var(--muted);line-height:1.8;font-size:17px}
 
 <!-- ============ 화면 6: 최종 결과 ============ -->
 <div id="page-result" class="screen hidden">
-  <div class="panel">
-    <div class="tag green center" style="display:block;text-align:center">MISSION CLEAR</div>
+  <div class="panel center">
+    <div class="tag green center" style="display:inline-block;text-align:center">MISSION CLEAR</div>
     <h1 class="display center">사건 종결</h1>
     <div class="resultBig"><span id="resultTime" class="resultTime">00:00.00</span></div>
     <div class="resultSub">참가자 <span id="resultId" class="mono"></span> 님, 모든 사건을 해결하셨습니다!</div>
-    <p class="lead" style="margin-top:8px">수고하셨습니다. 참여가 완료되었습니다.</p>
+    
+    <p class="lead" style="margin-top:8px; line-height:1.6;">
+      수고하셨습니다.<br>
+      화면의 코드를 복사하여 아래 설문 링크를 통해 응모해주세요.
+    </p>
+
+    <div style="margin: 20px 0; padding: 15px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 10px;">
+      <span style="font-size: 1.1em; color: var(--muted);">응모 코드: </span>
+      <span id="entry-code" class="mono" style="font-weight: bold; font-size: 1.4em; color: var(--amber); letter-spacing: 2px;"></span>
+      <button onclick="copyEntryCode()" style="padding: 6px 14px; background-color: #333; color: white; border: 1px solid #666; border-radius: 4px; cursor: pointer; font-weight: bold;">복사</button>
+    </div>
+
+    <a href="https://platform.samsungcic.com/#/survey/home/SURVY202609101410448" target="_blank" style="display: inline-block; padding: 14px 28px; background: linear-gradient(90deg, var(--cyan2), var(--cyan)); color: #04121c; text-decoration: none; border-radius: 5px; font-weight: 700; font-size: 16px; margin-top: 10px; box-shadow: 0 0 24px rgba(56,189,248,.25);">
+      설문 응모하러 가기
+    </a>
   </div>
 </div>
 
@@ -882,8 +896,37 @@ function finishGame(success) {
   const elapsedMs = performance.now() - state.startTime + state.penaltySeconds * 1000 + state.carriedMs;
   $("resultTime").textContent = fmtTime(elapsedMs);
   $("resultId").textContent = state.knoxId;
+  
+  // 랜덤 응모 코드 생성
+  const randomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+  $("entry-code").textContent = "COMP-" + randomCode;
+  
   showScreen("page-result");
   saveMyRecord(state.knoxId, elapsedMs);
+}
+
+// 응모 코드 복사 함수
+function copyEntryCode() {
+  const codeText = $("entry-code").textContent;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(codeText).then(() => {
+      alert("응모 코드가 복사되었습니다! 설문 페이지에 붙여넣기 해주세요.");
+    }).catch(() => {
+      alert("복사에 실패했습니다. 직접 텍스트를 드래그하여 복사해주세요.");
+    });
+  } else {
+    const textarea = document.createElement("textarea");
+    textarea.value = codeText;
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand("copy");
+      alert("응모 코드가 복사되었습니다! 설문 페이지에 붙여넣기 해주세요.");
+    } catch (e) {
+      alert("복사에 실패했습니다. 직접 텍스트를 드래그하여 복사해주세요.");
+    }
+    document.body.removeChild(textarea);
+  }
 }
 
 /* -------- 개인 기록 저장 (랭킹판 없이, 참고용 로그만) -------- */
